@@ -8,9 +8,9 @@ import Unwallpaper 1.0
 
 Window {
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("unwallpaper")
+    width: 960
+    height: 640
+    title: qsTr("Unwallpaper")
 
     ScrollView {
         id: latestPhotos
@@ -43,7 +43,7 @@ Window {
                 property int page: 1
 
                 id: latestPhotosList
-                spacing: 20
+                spacing: 40
                 width: parent.parent.width
                 height: childrenRect.height
             }
@@ -53,23 +53,11 @@ Window {
                 width: parent.width
                 height: 30
 
-                MouseArea {
+                Button {
+                    id: loadMoreButton
                     anchors.centerIn: parent
-                    implicitWidth: 100
-                    implicitHeight: 30
-
-                    Rectangle {
-                        anchors.centerIn: parent
-                        color: "black"
-                        implicitWidth: 100
-                        implicitHeight: 30
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: qsTr("load more")
-                            color: "white"
-                        }
-                    }
+                    text: qsTr("Load more")
+                    visible: false
 
                     onClicked: {
                         latestPhotosList.page++;
@@ -84,6 +72,7 @@ Window {
                 onPhotoParsed: {
                     var component = Qt.createComponent("Photo.qml");
                     var object = component.createObject(latestPhotosList, {model: photo});
+                    loadMoreButton.visible = true;
                 }
             }
 

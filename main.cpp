@@ -14,6 +14,9 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    // Use Flat UI style
+    qputenv("QT_QUICK_CONTROLS_1_STYLE", "Flat");
+
     // Register C++ class in QML
     qmlRegisterType<Unsplash>("Unwallpaper", 1, 0, "Unsplash");
     qmlRegisterType<Photo>("Unwallpaper", 1, 0, "PhotoModel");

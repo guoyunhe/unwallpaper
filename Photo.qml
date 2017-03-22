@@ -7,57 +7,40 @@ MouseArea {
     property PhotoModel model: PhotoModel {}
 
     width: parent.width
-    height: parent.width * 0.5625
+    height: parent.width * 0.5625 + 40
 
     Image {
+        id: image
         width: parent.width
-        height: parent.height
+        height: parent.height - 40
         fillMode: Image.PreserveAspectCrop
         source: model.regularUrl
     }
 
-    Item {
-        id: actionBar
-        visible: false
-        anchors.fill: parent
-        anchors.margins: 10
-        width: parent.width - 40
-        height: 50
+    Row {
+        id: footer
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        height: 30
+        spacing: 20
+
+        Text {
+            width: footer.width - downloadButton.width - footer.spacing
+            text: "© " + model.userFullName + " / Unsplash"
+            verticalAlignment: Text.AlignVCenter
+        }
 
         Button {
             id: downloadButton
-            text: "Download"
+            text: qsTr("Download")
 
             onClicked: {
                 model.download();
             }
         }
-    }
-
-    Rectangle {
-        id: ifnobar
-        visible: false
-        color: "#88FFFFFF"
-        anchors.bottom: parent.bottom
-        width: parent.width
-        height: 20
-
-        Text {
-            anchors.centerIn: parent
-            text: "© " + model.userFullName + " / Unsplash"
-        }
-    }
-
-    hoverEnabled: true
-
-    onEntered: {
-        ifnobar.visible = true;
-        actionBar.visible = true;
-    }
-
-    onExited: {
-        ifnobar.visible = false;
-        actionBar.visible = false;
     }
 
     Connections {
