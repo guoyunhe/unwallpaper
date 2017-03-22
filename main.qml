@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0
 
 import Unwallpaper 1.0
 
@@ -11,6 +12,48 @@ Window {
     width: 960
     height: 640
     title: qsTr("Unwallpaper")
+
+    Item {
+        id: navbar
+        width: parent.width
+        height: 40
+        clip: true
+        z: 1
+
+        FastBlur {
+            width: parent.width
+            height: latestPhotos.height
+            source: latestPhotos
+            radius: 32
+        }
+
+        Rectangle {
+            width: parent.width
+            height: parent.height
+            color: "#AAFFFFFF"
+        }
+
+        Row {
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            spacing: 20
+
+            Nav {
+                text: qsTr("Latest")
+                active: true
+            }
+
+            Nav {
+                text: qsTr("Collections")
+            }
+
+            Nav {
+                text: qsTr("Downloaded")
+            }
+        }
+    }
 
     ScrollView {
         id: latestPhotos
@@ -46,6 +89,11 @@ Window {
                 spacing: 40
                 width: parent.parent.width
                 height: childrenRect.height
+
+                Item {
+                    width: parent.width
+                    height: 20
+                }
             }
 
             // "load more" button
@@ -81,6 +129,5 @@ Window {
             }
         }
     }
-
 
 }

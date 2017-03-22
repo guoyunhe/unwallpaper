@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Photo.qml</file>
+        <file>Nav.qml</file>
     </qresource>
 </RCC>
