@@ -36,3 +36,6 @@ HEADERS += \
     unsplash.h \
     photo.h \
     photolist.h
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += Magick++

@@ -12,6 +12,9 @@ class Photo : public QObject
 
     Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
 
+    Q_PROPERTY(int width READ getWidth WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(int height READ getHeight WRITE setHeight NOTIFY heightChanged)
+
     Q_PROPERTY(QUrl rawUrl READ getRawUrl WRITE setRawUrl NOTIFY rawUrlChanged)
     Q_PROPERTY(QUrl fullUrl READ getFullUrl WRITE setFullUrl NOTIFY fullUrlChanged)
     Q_PROPERTY(QUrl regularUrl READ getRegularUrl WRITE setRegularUrl NOTIFY regularUrlChanged)
@@ -31,6 +34,8 @@ public:
     explicit Photo(QJsonObject json, QObject *parent = 0);
 
     QString getId();
+    int getWidth();
+    int getHeight();
     QUrl getRawUrl();
     QUrl getFullUrl();
     QUrl getRegularUrl();
@@ -41,8 +46,17 @@ public:
     QUrl getDownloadUrl();
     QString getUserFullName();
     QJsonObject getJson();
+    QString getSavePath();
+    QString getContentsPath();
+    QString getImagesPath();
+    QString getSaveFileName(int width, int height);
+    QString getMetadataFileName();
+    QString getScreenshotFileName();
+
 
     void setId(QString id);
+    void setWidth(int width);
+    void setHeight(int height);
     void setRawUrl(QUrl rawUrl);
     void setFullUrl(QUrl fullUrl);
     void setRegularUrl(QUrl regularUrl);
@@ -55,6 +69,10 @@ public:
 
 signals:
     void idChanged(QString id);
+
+    void widthChanged(int width);
+    void heightChanged(int height);
+
     void rawUrlChanged(QUrl rawUrl);
     void fullUrlChanged(QUrl fullUrl);
     void regularUrlChanged(QUrl regularUrl);
@@ -69,14 +87,18 @@ signals:
 
     void jsonChanged(QJsonObject json);
 
-    void wallpaperSaved();
+    void downloadFailed();
+    void downloaded();
+    void saved();
 
 public slots:
-    void saveAsWallpaper();
+    void save();
     void download();
 
 private:
     QString id;
+    int width;
+    int height;
     QUrl rawUrl;
     QUrl fullUrl;
     QUrl regularUrl;
@@ -87,6 +109,10 @@ private:
     QUrl downloadUrl;
     QString userFullName;
     QJsonObject json;
+
+    QNetworkReply *reply;
+
+    void generateSize(int width, int height, QString path = QString(""));
 };
 
 #endif // PHOTO_H

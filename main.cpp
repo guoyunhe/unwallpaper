@@ -1,11 +1,17 @@
+#include <Magick++.h>
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
 #include "unsplash.h"
 #include "photo.h"
 
+using namespace Magick;
+
 int main(int argc, char *argv[])
 {
+    InitializeMagick(*argv);
+
     QGuiApplication app(argc, argv);
 
     // Register C++ class in QML

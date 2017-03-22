@@ -1,8 +1,14 @@
+#include <Magick++.h>
+
+#include <QDir>
+#include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
 #include "photo.h"
+
+using namespace Magick;
 
 Photo::Photo(QObject *parent) : QObject(parent)
 {
@@ -14,6 +20,9 @@ Photo::Photo(QJsonObject json, QObject *parent) : QObject(parent)
     this->json = json;
 
     id = json["id"].toString();
+
+    width = json["width"].toInt();
+    height = json["height"].toInt();
 
     QJsonObject urls = json["urls"].toObject();
     rawUrl = QUrl(urls["raw"].toString());
@@ -34,20 +43,101 @@ Photo::Photo(QJsonObject json, QObject *parent) : QObject(parent)
 void Photo::download()
 {
     QNetworkAccessManager *network = new QNetworkAccessManager;
-    QNetworkReply *reply = network->get(QNetworkRequest(fullUrl));
-    connect(reply, &QNetworkReply::finished, this, &Photo::saveAsWallpaper);
+    reply = network->get(QNetworkRequest(fullUrl));
+    connect(reply, &QNetworkReply::finished, this, &Photo::save);
+    connect(reply, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &Photo::downloadFailed);
 }
 
-void Photo::saveAsWallpaper()
+void Photo::save()
 {
+    emit downloaded();
     qDebug("Downloaded!");
 
-    emit wallpaperSaved();
+    QDir *dir = new QDir;
+    dir->mkpath(getImagesPath()); // Create directory if not exists
+    QFile *file = new QFile;
+    file->setFileName(getSaveFileName(width, height));
+    file->open(QIODevice::ReadWrite); // Create file if not exists
+    file->write(reply->readAll());
+
+    generateSize(3840, 2160); // 4K/UHD, popular desktop monitor resolution
+    generateSize(2560, 1440); // 2K/QHD, popular desktop monitor resolution
+    generateSize(1920, 1080); // FHD, most popular desktop and gaming laptop screen resolution
+    generateSize(1600, 900); // Not very popular laptop screen resolution
+    generateSize(1366, 768); // HD, most popular laptop screen resolution
+    generateSize(1280, 1024); // Legacy desktop monitor resolution
+    generateSize(1024, 768); // Legacy laptop screen resolution
+
+    generateSize(400, 250, getScreenshotFileName()); // Screenshot used in desktop configuration
+
+    QFile metafile(getMetadataFileName());
+
+    if (metafile.open(QIODevice::ReadWrite)) {
+        QTextStream stream(&metafile);
+        stream << "[Desktop Entry]" << endl;
+        stream << "Encoding=UTF-8" << endl;
+        stream << "Name=Unsplash " << id << endl;
+        stream << "X-KDE-PluginInfo-Name=Unsplash " << id << endl;
+        stream << "X-KDE-PluginInfo-Author=" << userFullName << endl;
+        stream << "X-KDE-PluginInfo-License=CC0" << endl;
+        stream << "X-KDE-PluginInfo-Website=https://unsplash.com/" << endl;
+        stream << endl;
+    }
+
+    emit saved();
+}
+
+void Photo::generateSize(int width, int height, QString path)
+{
+    int resizeWidth;
+    int resizeHeight;
+
+    if (width * this->height  > this->width * height) {
+        resizeWidth = width;
+        resizeHeight = (int) (resizeWidth * this->height * 1.0 / this->width + 0.5); // Round up
+    } else {
+        resizeHeight = height;
+        resizeWidth = (int) (resizeHeight * this->width * 1.0 / this->height + 0.5); // Round up
+    }
+
+    QFile *file = new QFile;
+    file->setFileName(getSaveFileName(width, height));
+    file->open(QIODevice::ReadWrite); // Create file if not exists
+
+    Image image;
+
+    try {
+        // Read full size photo
+        image.read(getSaveFileName(this->width, this->height).toUtf8().constData());
+
+        image.resize(Geometry(resizeWidth, resizeHeight));
+
+        image.crop(Geometry(width, height, (resizeWidth - width) / 2, (resizeHeight - height) / 2));
+
+        if (path.isNull() || path.isEmpty()) {
+            image.write(getSaveFileName(width, height).toUtf8().constData());
+        } else {
+            image.write(path.toUtf8().constData());
+        }
+    } catch ( Exception &error ) {
+      qDebug() << "Caught exception: " << error.what();
+      return;
+    }
 }
 
 QString Photo::getId()
 {
     return id;
+}
+
+int Photo::getWidth()
+{
+    return width;
+}
+
+int Photo::getHeight()
+{
+    return height;
 }
 
 QUrl Photo::getRawUrl()
@@ -100,10 +190,52 @@ QJsonObject Photo::getJson()
     return json;
 }
 
+QString Photo::getSavePath ()
+{
+    return QDir::homePath() + QString("/.local/share/wallpapers/Unsplash-") + id;
+}
+
+QString Photo::getContentsPath ()
+{
+    return getSavePath() + QString("/contents");
+}
+
+QString Photo::getImagesPath ()
+{
+    return getContentsPath() + QString("/images");
+}
+
+QString Photo::getSaveFileName(int width, int height)
+{
+    return getImagesPath() + QString("/") + QString::number(width) + QString("x") + QString::number(height) + QString(".jpg");
+}
+
+QString Photo::getMetadataFileName()
+{
+    return getSavePath() + QString("/metadata.desktop");
+}
+
+QString Photo::getScreenshotFileName()
+{
+    return getContentsPath() + QString("/screenshot.jpg");
+}
+
 void Photo::setId(QString id)
 {
     this->id = id;
     emit idChanged(id);
+}
+
+void Photo::setWidth(int width)
+{
+    this->width = width;
+    emit widthChanged(width);
+}
+
+void Photo::setHeight(int height)
+{
+    this->height = height;
+    emit heightChanged(height);
 }
 
 void Photo::setRawUrl(QUrl rawUrl)
