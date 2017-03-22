@@ -27,6 +27,8 @@ class Photo : public QObject
 
     Q_PROPERTY(QString userFullName READ getUserFullName WRITE setUserFullName NOTIFY userFullNameChanged)
 
+    Q_PROPERTY(bool local READ isLocal NOTIFY localStatusChanged)
+
     Q_PROPERTY(QJsonObject json READ getJson NOTIFY jsonChanged)
 
 public:
@@ -52,6 +54,8 @@ public:
     QString getSaveFileName(int width, int height);
     QString getMetadataFileName();
     QString getScreenshotFileName();
+
+    bool isLocal();
 
 
     void setId(QString id);
@@ -87,9 +91,12 @@ signals:
 
     void jsonChanged(QJsonObject json);
 
+    void localStatusChanged(bool local);
+
     void downloadFailed();
     void downloaded();
     void downloadProgress(qint64 bytesRead, qint64 totalBytes);
+    void saveProgress(int filesSaved, int totalFiles);
     void saved();
 
 public slots:

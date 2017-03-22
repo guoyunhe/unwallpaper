@@ -1,6 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.3
 import Unwallpaper 1.0
 
 MouseArea {
@@ -15,6 +15,26 @@ MouseArea {
         height: parent.height - 40
         fillMode: Image.PreserveAspectCrop
         source: model.regularUrl
+
+        Rectangle {
+            id: progressBar
+            height: parent.height
+            width: 0
+            color: "#5544CC88"
+
+            Behavior on width {
+                SmoothedAnimation { easing.type: Easing.InOutQuad }
+            }
+
+            Timer {
+                id: progressBarResetTimer
+                interval: 1000
+                onTriggered: {
+                    progressBar.visible = false
+                    progressBar.width = 0
+                }
+            }
+        }
     }
 
     Row {
@@ -35,10 +55,12 @@ MouseArea {
 
         Button {
             id: downloadButton
-            text: qsTr("Download")
+            text: model.local ? qsTr("✓ Saved") : qsTr("Download")
+            enabled: !model.local
 
             onClicked: {
                 model.download();
+                downloadButton.enabled = false
             }
         }
     }
@@ -47,11 +69,17 @@ MouseArea {
         target: model
 
         onDownloadProgress: {
-
+            progressBar.visible = true
+            progressBar.width = image.width * bytesRead / totalBytes / 2
         }
 
-        onWallpaperSaved: {
-            console.log("Saved!");
+        onSaveProgress: {
+            progressBar.width = image.width * (filesSaved / totalFiles / 2 + 0.5)
+        }
+
+        onSaved: {
+            progressBar.width = image.width
+            progressBarResetTimer.start()
         }
     }
 }

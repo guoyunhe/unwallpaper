@@ -67,15 +67,27 @@ void Photo::save()
     file->open(QIODevice::ReadWrite); // Create file if not exists
     file->write(reply->readAll());
 
+    emit saveProgress(1, 10);
+
     generateSize(3840, 2160); // 4K/UHD, popular desktop monitor resolution
+
+    emit saveProgress(2, 10);
+
     generateSize(2560, 1440); // 2K/QHD, popular desktop monitor resolution
+    emit saveProgress(3, 10);
     generateSize(1920, 1080); // FHD, most popular desktop and gaming laptop screen resolution
+    emit saveProgress(4, 10);
     generateSize(1600, 900); // Not very popular laptop screen resolution
+    emit saveProgress(5, 10);
     generateSize(1366, 768); // HD, most popular laptop screen resolution
+    emit saveProgress(6, 10);
     generateSize(1280, 1024); // Legacy desktop monitor resolution
+    emit saveProgress(7, 10);
     generateSize(1024, 768); // Legacy laptop screen resolution
+    emit saveProgress(8, 10);
 
     generateSize(400, 250, getScreenshotFileName()); // Screenshot used in desktop configuration
+    emit saveProgress(9, 10);
 
     QFile metafile(getMetadataFileName());
 
@@ -91,7 +103,11 @@ void Photo::save()
         stream << endl;
     }
 
+    emit saveProgress(10, 10);
+
     emit saved();
+
+    emit localStatusChanged(true);
 }
 
 void Photo::generateSize(int width, int height, QString path)
@@ -225,6 +241,12 @@ QString Photo::getMetadataFileName()
 QString Photo::getScreenshotFileName()
 {
     return getContentsPath() + QString("/screenshot.jpg");
+}
+
+bool Photo::isLocal()
+{
+    QFile meta(getMetadataFileName());
+    return meta.exists();
 }
 
 void Photo::setId(QString id)
