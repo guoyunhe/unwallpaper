@@ -102,6 +102,7 @@ signals:
 public slots:
     void save();
     void download();
+    void remove();
 
 private:
     QString id;

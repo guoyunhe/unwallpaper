@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import Unwallpaper 1.0
 
@@ -37,7 +38,7 @@ MouseArea {
         }
     }
 
-    Row {
+    Item {
         id: footer
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -45,10 +46,8 @@ MouseArea {
         anchors.right: parent.right
         anchors.rightMargin: 10
         height: 30
-        spacing: 20
 
         Text {
-            width: footer.width - downloadButton.width - footer.spacing
             text: "© " + model.userFullName + " / Unsplash"
             verticalAlignment: Text.AlignVCenter
         }
@@ -57,10 +56,40 @@ MouseArea {
             id: downloadButton
             text: model.local ? qsTr("✓ Saved") : qsTr("Download")
             enabled: !model.local
+            anchors.right: parent.right
 
             onClicked: {
                 model.download();
                 downloadButton.enabled = false
+            }
+        }
+
+        Button {
+            id: removeButton
+            visible: model.local
+            anchors.right: downloadButton.left
+            anchors.rightMargin: 10
+
+            style: ButtonStyle {
+                background: Rectangle {
+                    implicitWidth: 120
+                    implicitHeight: 29
+                    border.color: removeButton.pressed ? "#E13131" : "#F15151"
+                    color: removeButton.hovered ? (removeButton.pressed ? "#E13131" : "#F15151") : "white"
+                    radius: 3
+                }
+
+                label: Text {
+                    color: removeButton.hovered || removeButton.pressed ? "white" : "#F15151"
+                    text: qsTr("Delete")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            onClicked: {
+                model.remove();
+                downloadButton.enabled = true
             }
         }
     }

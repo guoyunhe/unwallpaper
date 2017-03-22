@@ -148,6 +148,14 @@ void Photo::generateSize(int width, int height, QString path)
     }
 }
 
+void Photo::remove()
+{
+    QDir dir(getSavePath());
+    dir.removeRecursively();
+
+    emit localStatusChanged(false);
+}
+
 QString Photo::getId()
 {
     return id;
