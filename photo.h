@@ -89,6 +89,7 @@ signals:
 
     void downloadFailed();
     void downloaded();
+    void downloadProgress(qint64 bytesRead, qint64 totalBytes);
     void saved();
 
 public slots:

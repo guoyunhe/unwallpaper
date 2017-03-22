@@ -6,7 +6,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     unsplash.cpp \
     photo.cpp \
-    photolist.cpp
+    photolist.cpp \
+    photosavethread.cpp
 
 RESOURCES += qml.qrc
 
@@ -35,7 +36,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     unsplash.h \
     photo.h \
-    photolist.h
+    photolist.h \
+    photosavethread.h
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += Magick++

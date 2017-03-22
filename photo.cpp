@@ -7,6 +7,7 @@
 #include <QNetworkRequest>
 
 #include "photo.h"
+#include "photosavethread.h"
 
 using namespace Magick;
 
@@ -44,8 +45,14 @@ void Photo::download()
 {
     QNetworkAccessManager *network = new QNetworkAccessManager;
     reply = network->get(QNetworkRequest(fullUrl));
-    connect(reply, &QNetworkReply::finished, this, &Photo::save);
+
+    PhotoSaveThread *thread = new PhotoSaveThread(this);
+    connect(reply, &QNetworkReply::downloadProgress, this, &Photo::downloadProgress);
+    connect(reply, &QNetworkReply::finished, this, &Photo::downloaded);
+    connect(reply, &QNetworkReply::finished, thread, &PhotoSaveThread::save);
     connect(reply, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &Photo::downloadFailed);
+
+    connect(thread, &PhotoSaveThread::saved, this, &Photo::saved);
 }
 
 void Photo::save()
