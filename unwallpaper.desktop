@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+
+Name=Unwallpaper
+
+GenericName=Wallpaper Downloader
+GenericName[zh_CN]=壁纸下载器
+GenericName[zh_TW]=壁紙下載器
+
+Comment=Download beautiful photos from Unsplash as wallpaper
+Comment[zh_CN]=下载 Unsplash 上的精美照片作为桌面壁纸
+Comment[zh_CN]=下載 Unsplash 上的精美照片作為桌面壁紙
+
+Icon=unwallpaper
+
+Exec=unwallpaper
+
+Categories=Graphics;Qt;System
+
+Keywords=desktop,screen,monitor,background,image,picture
+Keywords[zh_CN]=桌面,屏幕,背景,图片,图像,墙纸
+Keywords[zh_TW]=桌面,屏幕,背景,圖片,圖像,牆紙

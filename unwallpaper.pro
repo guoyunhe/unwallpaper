@@ -41,3 +41,7 @@ HEADERS += \
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += Magick++
+
+DISTFILES += \
+    unwallpaper.desktop \
+    README.md
