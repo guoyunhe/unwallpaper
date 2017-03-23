@@ -46,7 +46,6 @@ QUrl Unsplash::makeUrl(QString path, QUrlQuery query)
 QNetworkReply* Unsplash::get(QString path, QUrlQuery query)
 {
     QUrl url = makeUrl(path, query);
-    QNetworkAccessManager network;
     return network.get(QNetworkRequest(url));
 }
 

@@ -6,7 +6,6 @@
 #include <QString>
 #include <QUrlQuery>
 
-#include "photo.h"
 #include "photolist.h"
 
 PhotoList::PhotoList(QObject *parent) : QObject(parent)
@@ -40,22 +39,13 @@ void PhotoList::fetch()
         break;
     }
 
-    unsplash = new Unsplash();
-
-    reply = unsplash->get(path, query);
-
-    qDebug() << "reply";
+    reply = unsplash.get(path, query);
 
     // Update progress while waiting response data
     connect(reply, &QNetworkReply::downloadProgress, this, &PhotoList::downloadProgress);
 
     // Response finished and data is ready to read
-    connect(reply, &QNetworkReply::finished, this, &PhotoList::emptySlot);
-}
-
-void PhotoList::emptySlot()
-{
-
+    connect(reply, &QNetworkReply::finished, this, &PhotoList::parsePhotos);
 }
 
 void PhotoList::nextPage()
@@ -70,7 +60,6 @@ void PhotoList::nextPage()
 void PhotoList::parsePhotos()
 {
     QString stringReply = (QString) reply->readAll();
-    qDebug() << stringReply;
     QJsonDocument jsonResponse = QJsonDocument::fromJson(stringReply.toUtf8());
     QJsonArray array = jsonResponse.array();
 

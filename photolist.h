@@ -37,12 +37,11 @@ signals:
 
 public slots:
     void parsePhotos();
-    void emptySlot();
     void fetch();
     void nextPage();
 
 private:
-    Unsplash* unsplash;
+    Unsplash unsplash;
     QNetworkReply* reply;
     Order order = Order::Latest;
     bool curated = false;

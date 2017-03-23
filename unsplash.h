@@ -27,6 +27,7 @@ signals:
 public slots:
 
 private:
+    QNetworkAccessManager network;
 };
 
 #endif // UNSPLASH_H
