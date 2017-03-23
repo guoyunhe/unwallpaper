@@ -1,4 +1,4 @@
-# ![Icon](icons/unwallpaper-48.png) Unwallpaper
+# ![Icon](icons/unwallpaper-32.png) Unwallpaper
 
 Download awesome photos from Unsplash as wallpaper.
 
