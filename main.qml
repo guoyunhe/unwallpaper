@@ -11,7 +11,7 @@ Window {
     visible: true
     width: 960
     height: 640
-    title: qsTr("Unwallpaper")
+    title: "Unwallpaper"
 
     Item {
         id: navbar
@@ -41,15 +41,18 @@ Window {
             spacing: 20
 
             Nav {
+                //: Navbar entry
                 text: qsTr("Latest")
                 active: true
             }
 
             Nav {
+                //: Navbar entry
                 text: qsTr("Collections")
             }
 
             Nav {
+                //: Navbar entry
                 text: qsTr("Downloaded")
             }
         }
@@ -104,6 +107,7 @@ Window {
                 Button {
                     id: loadMoreButton
                     anchors.centerIn: parent
+                    //: Button at the end of photo list
                     text: qsTr("Load more")
                     visible: false
 

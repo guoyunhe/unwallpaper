@@ -54,7 +54,7 @@ MouseArea {
 
         Button {
             id: downloadButton
-            text: model.local ? qsTr("✓ Saved") : qsTr("Download")
+            text: model.local ? "✓ " + qsTr("Downloaded") : qsTr("Download")
             enabled: !model.local
             anchors.right: parent.right
 
