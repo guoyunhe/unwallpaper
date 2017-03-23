@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 
+import Unwallpaper 1.0
+
 Window {
     visible: true
     width: 960
@@ -73,16 +75,26 @@ Window {
         PhotoList {
             id: latestPhotoList
             visible: latestPhotoNav.active
+            model: PhotoListModel {
+                order: PhotoListModel.Latest
+            }
         }
 
         PhotoList {
             id: popularPhotoList
             visible: popularPhotoNav.active
+            model: PhotoListModel {
+                order: PhotoListModel.Popular
+            }
         }
 
         PhotoList {
             id: curatedPhotoList
             visible: curatedPhotoNav.active
+            model: PhotoListModel {
+                order: PhotoListModel.Latest
+                curated: true
+            }
         }
 
         PhotoList {

@@ -4,72 +4,83 @@ import QtQuick.Controls.Styles 1.4
 
 import Unwallpaper 1.0
 
-ScrollView {
+Item {
+    property PhotoListModel model: PhotoListModel {}
     width: parent.width
     height: parent.height
-    flickableItem.interactive: true // Allow touch swipe and mouse drag gestures
-    horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-    style: ScrollViewStyle {
-        transientScrollBars: true
-        handle: Item {
-            implicitWidth: 3
-            implicitHeight: 20
-            Rectangle {
-                color: "black"
-                anchors.fill: parent
+
+    ScrollView {
+        width: parent.width
+        height: parent.height
+        flickableItem.interactive: true // Allow touch swipe and mouse drag gestures
+        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+        style: ScrollViewStyle {
+            transientScrollBars: true
+            handle: Item {
+                implicitWidth: 3
+                implicitHeight: 20
+                Rectangle {
+                    color: "black"
+                    anchors.fill: parent
+                }
+            }
+            scrollBarBackground: Item {
+                implicitWidth: 3
+                implicitHeight: 20
             }
         }
-        scrollBarBackground: Item {
-            implicitWidth: 3
-            implicitHeight: 20
-        }
-    }
-
-    Column {
-        spacing: 20
-        width: parent.parent.width
-        height: childrenRect.height
 
         Column {
-            property int page: 1
-
-            id: latestPhotosList
-            spacing: 40
+            spacing: 20
             width: parent.parent.width
             height: childrenRect.height
-        }
 
-        // "load more" button
-        Item {
-            width: parent.width
-            height: 30
+            Column {
+                id: list
+                spacing: 40
+                width: parent.parent.width
+                height: childrenRect.height
+            }
 
-            Button {
-                id: loadMoreButton
-                anchors.centerIn: parent
-                //: Button at the end of photo list
-                text: qsTr("Load more")
-                visible: false
+            // "load more" button
+            Item {
+                width: parent.width
+                height: 30
 
-                onClicked: {
-                    latestPhotosList.page++;
-                    latestPhotosLoader.getPhotos(latestPhotosList.page)
+                Button {
+                    id: loadMoreButton
+                    anchors.centerIn: parent
+                    //: Button at the end of photo list
+                    text: qsTr("Load more")
+                    //visible: false
+
+                    onClicked: {
+                        model.nextPage()
+                        visible = false
+                    }
                 }
             }
         }
+    }
 
-        Unsplash {
-            id: latestPhotosLoader
+    Component.onCompleted: {
+        model.fetch();
+    }
 
-            onPhotoParsed: {
-                var component = Qt.createComponent("Photo.qml");
-                var object = component.createObject(latestPhotosList, {model: photo});
-                loadMoreButton.visible = true;
-            }
+    Connections {
+        target: model
+
+        onDownloadProgress: {
+            //
         }
 
-        Component.onCompleted: {
-            latestPhotosLoader.getPhotos()
+        onPhotoParsed: {
+            var component = Qt.createComponent("Photo.qml");
+            var object = component.createObject(list, {model: photo});
+        }
+
+        onAllPhotosParsed: {
+            loadMoreButton.visible = true;
         }
     }
 }
