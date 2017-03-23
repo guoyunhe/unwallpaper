@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 
 MouseArea {
     id: nav
@@ -9,9 +9,19 @@ MouseArea {
 
     Text {
         text: parent.text
-        color: parent.active ? "#000000" : "#555555"
+        opacity: parent.active ? 1 : 0.7
+        font.pixelSize: 14
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }
 
+    onClicked: {
+        this.active = true
+
+        var siblings = parent.children
+
+        for (var i = 0; i < siblings.length; i++)
+            if (siblings[i] !== this)
+                siblings[i].active = false
+    }
 }

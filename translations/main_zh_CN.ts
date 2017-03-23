@@ -17,6 +17,14 @@
     </message>
 </context>
 <context>
+    <name>PhotoList</name>
+    <message>
+        <source>Load more</source>
+        <extracomment>Button at the end of photo list</extracomment>
+        <translation type="unfinished">加载更多</translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source>Latest</source>
@@ -26,7 +34,7 @@
     <message>
         <source>Collections</source>
         <extracomment>Navbar entry</extracomment>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Downloaded</source>
@@ -36,7 +44,17 @@
     <message>
         <source>Load more</source>
         <extracomment>Button at the end of photo list</extracomment>
-        <translation>加载更多</translation>
+        <translation type="vanished">加载更多</translation>
+    </message>
+    <message>
+        <source>Popular</source>
+        <extracomment>Navbar entry</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Curated</source>
+        <extracomment>Navbar entry</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

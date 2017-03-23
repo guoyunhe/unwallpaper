@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>Photo.qml</file>
         <file>Nav.qml</file>
+        <file>PhotoList.qml</file>
     </qresource>
 </RCC>
