@@ -21,7 +21,7 @@
     <message>
         <source>Load more</source>
         <extracomment>Button at the end of photo list</extracomment>
-        <translation type="unfinished">加载更多</translation>
+        <translation>加载更多</translation>
     </message>
 </context>
 <context>
@@ -49,12 +49,12 @@
     <message>
         <source>Popular</source>
         <extracomment>Navbar entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>热门</translation>
     </message>
     <message>
         <source>Curated</source>
         <extracomment>Navbar entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>策划</translation>
     </message>
 </context>
 </TS>
