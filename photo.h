@@ -48,12 +48,15 @@ public:
     QUrl getDownloadUrl();
     QString getUserFullName();
     QJsonObject getJson();
-    QString getSavePath();
-    QString getContentsPath();
-    QString getImagesPath();
-    QString getSaveFileName(int width, int height);
-    QString getMetadataFileName();
-    QString getScreenshotFileName();
+
+    QString getSaveFileName();
+    QString getJsonFileName();
+    QString getWallpaperPath();
+    QString getWallpaperContentsPath();
+    QString getWallpaperImagesPath();
+    QString getWallpaperImageFileName(int width, int height);
+    QString getWallpaperMetadataFileName();
+    QString getWallpaperScreenshotFileName();
 
     bool isLocal();
 
@@ -121,7 +124,7 @@ private:
 
     QNetworkReply *reply;
 
-    void generateSize(int width, int height, QString path = QString(""));
+    void generateWallpaperImage(int width, int height, QString path = QString(""));
 };
 
 #endif // PHOTO_H

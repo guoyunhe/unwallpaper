@@ -2,12 +2,15 @@
 
 #include <QDir>
 #include <QFile>
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-#include "photo.h"
+#include "filesystem.h"
 #include "photosavethread.h"
+
+#include "photo.h"
 
 using namespace Magick;
 
@@ -57,39 +60,43 @@ void Photo::download()
 
 void Photo::save()
 {
-    emit downloaded();
-    qDebug("Downloaded!");
-
-    QDir *dir = new QDir;
-    dir->mkpath(getImagesPath()); // Create directory if not exists
+    // Save photo in full size
     QFile *file = new QFile;
-    file->setFileName(getSaveFileName(width, height));
+    file->setFileName(getSaveFileName());
     file->open(QIODevice::ReadWrite); // Create file if not exists
     file->write(reply->readAll());
-
     emit saveProgress(1, 10);
 
-    generateSize(3840, 2160); // 4K/UHD, popular desktop monitor resolution
+    // Save JSON
+    QFile jsonFile(getJsonFileName());
+
+    if (jsonFile.open(QIODevice::ReadWrite)) {
+        QJsonDocument doc(json);
+        QTextStream stream(&jsonFile);
+        stream << doc.toJson(QJsonDocument::Compact) << endl;
+        stream << endl;
+    }
 
     emit saveProgress(2, 10);
 
-    generateSize(2560, 1440); // 2K/QHD, popular desktop monitor resolution
+    QDir *dir = new QDir;
+    dir->mkpath(getWallpaperImagesPath()); // Create directory if not exists
+    generateWallpaperImage(3840, 2160); // 4K/UHD, popular desktop monitor resolution
     emit saveProgress(3, 10);
-    generateSize(1920, 1080); // FHD, most popular desktop and gaming laptop screen resolution
+    generateWallpaperImage(2560, 1440); // 2K/QHD, popular desktop monitor resolution
     emit saveProgress(4, 10);
-    generateSize(1600, 900); // Not very popular laptop screen resolution
+    generateWallpaperImage(1920, 1080); // FHD, most popular desktop and gaming laptop screen resolution
     emit saveProgress(5, 10);
-    generateSize(1366, 768); // HD, most popular laptop screen resolution
+    generateWallpaperImage(1366, 768); // HD, most popular laptop screen resolution
     emit saveProgress(6, 10);
-    generateSize(1280, 1024); // Legacy desktop monitor resolution
+    generateWallpaperImage(1280, 1024); // Legacy desktop monitor resolution
     emit saveProgress(7, 10);
-    generateSize(1024, 768); // Legacy laptop screen resolution
+    generateWallpaperImage(1024, 768); // Legacy laptop screen resolution
     emit saveProgress(8, 10);
-
-    generateSize(400, 250, getScreenshotFileName()); // Screenshot used in desktop configuration
+    generateWallpaperImage(400, 250, getWallpaperScreenshotFileName()); // Screenshot used in desktop configuration
     emit saveProgress(9, 10);
 
-    QFile metafile(getMetadataFileName());
+    QFile metafile(getWallpaperMetadataFileName());
 
     if (metafile.open(QIODevice::ReadWrite)) {
         QTextStream stream(&metafile);
@@ -110,7 +117,7 @@ void Photo::save()
     emit localStatusChanged(true);
 }
 
-void Photo::generateSize(int width, int height, QString path)
+void Photo::generateWallpaperImage(int width, int height, QString path)
 {
     int resizeWidth;
     int resizeHeight;
@@ -124,33 +131,33 @@ void Photo::generateSize(int width, int height, QString path)
     }
 
     QFile *file = new QFile;
-    file->setFileName(getSaveFileName(width, height));
+    file->setFileName(getWallpaperImageFileName(width, height));
     file->open(QIODevice::ReadWrite); // Create file if not exists
 
     Image image;
 
     try {
         // Read full size photo
-        image.read(getSaveFileName(this->width, this->height).toUtf8().constData());
+        image.read(getSaveFileName().toUtf8().constData());
 
         image.resize(Geometry(resizeWidth, resizeHeight));
 
         image.crop(Geometry(width, height, (resizeWidth - width) / 2, (resizeHeight - height) / 2));
 
         if (path.isNull() || path.isEmpty()) {
-            image.write(getSaveFileName(width, height).toUtf8().constData());
+            image.write(getWallpaperImageFileName(width, height).toUtf8().constData());
         } else {
             image.write(path.toUtf8().constData());
         }
     } catch ( Exception &error ) {
-      qDebug() << "Caught exception: " << error.what();
-      return;
+        qDebug() << "Caught exception: " << error.what();
+        return;
     }
 }
 
 void Photo::remove()
 {
-    QDir dir(getSavePath());
+    QDir dir(getWallpaperPath());
     dir.removeRecursively();
 
     emit localStatusChanged(false);
@@ -221,40 +228,61 @@ QJsonObject Photo::getJson()
     return json;
 }
 
-QString Photo::getSavePath ()
+/**
+ * @brief Path of saved full size photo
+ * Usually it is /home/<username>/Pictures/Unwallpaper/<photoId>.jpg
+ * @return
+ */
+QString Photo::getSaveFileName()
 {
-    return QDir::homePath() + QString("/.local/share/wallpapers/Unsplash-") + id;
+    return FileSystem::getSavePath() + QString("/") + id + QString(".jpg");
 }
 
-QString Photo::getContentsPath ()
+/**
+ * @brief Path of saved JSON object
+ * Usually it is /home/<username>/.local/share/unwallpaper/data/photos/<photoId>.json
+ * @return
+ */
+QString Photo::getJsonFileName()
 {
-    return getSavePath() + QString("/contents");
+    return FileSystem::getAppDataPath() + QString("/data/photos/") + id + QString(".json");
 }
 
-QString Photo::getImagesPath ()
+QString Photo::getWallpaperPath ()
 {
-    return getContentsPath() + QString("/images");
+    return FileSystem::getWallpaperPath() + QString("/Unwallpaper-") + id;
 }
 
-QString Photo::getSaveFileName(int width, int height)
+QString Photo::getWallpaperContentsPath ()
 {
-    return getImagesPath() + QString("/") + QString::number(width) + QString("x") + QString::number(height) + QString(".jpg");
+    return getWallpaperPath() + QString("/contents");
 }
 
-QString Photo::getMetadataFileName()
+QString Photo::getWallpaperImagesPath ()
 {
-    return getSavePath() + QString("/metadata.desktop");
+    return getWallpaperContentsPath() + QString("/images");
 }
 
-QString Photo::getScreenshotFileName()
+QString Photo::getWallpaperImageFileName(int width, int height)
 {
-    return getContentsPath() + QString("/screenshot.jpg");
+    return getWallpaperImagesPath() + QString("/") + QString::number(width) + QString("x") + QString::number(height) + QString(".jpg");
+}
+
+QString Photo::getWallpaperMetadataFileName()
+{
+    return getWallpaperPath() + QString("/metadata.desktop");
+}
+
+QString Photo::getWallpaperScreenshotFileName()
+{
+    return getWallpaperContentsPath() + QString("/screenshot.jpg");
 }
 
 bool Photo::isLocal()
 {
-    QFile meta(getMetadataFileName());
-    return meta.exists();
+    QFile file(getSaveFileName());
+    QFile json(getJsonFileName());
+    return file.exists() && json.exists();
 }
 
 void Photo::setId(QString id)

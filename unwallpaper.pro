@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     unsplash.cpp \
     photo.cpp \
     photolist.cpp \
-    photosavethread.cpp
+    photosavethread.cpp \
+    filesystem.cpp
 
 RESOURCES += qml.qrc
 
@@ -43,7 +44,8 @@ HEADERS += \
     unsplash.h \
     photo.h \
     photolist.h \
-    photosavethread.h
+    photosavethread.h \
+    filesystem.h
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += Magick++

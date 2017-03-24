@@ -8,6 +8,7 @@
 #include <QQmlApplicationEngine>
 #include <QTranslator>
 
+#include "filesystem.h"
 #include "unsplash.h"
 #include "photo.h"
 #include "photolist.h"
@@ -20,20 +21,20 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    app.setApplicationName(QString("unwallpaper"));
+    app.setApplicationDisplayName(QString("Unwallpaper"));
+    app.setApplicationVersion(QString("0.1.0"));
+
+    FileSystem::init();
+
     // Load translation
     QTranslator translator;
-    // Look up app folder: translations/main_zh_CN.qm
-    if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), QLatin1String("translations"), QLatin1String(".qm")))
-        app.installTranslator(&translator);
-    // Look up user local folder: ~/.local/share/unwallpaper/translations/main_zh_CN.qm
-    else if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), QDir::homePath() + QLatin1String("/.local/share/unwallpaper/translations"), QLatin1String(".qm")))
-        app.installTranslator(&translator);
-    // Look up system local folder: ~/usr/local/share/unwallpaper/translations/main_zh_CN.qm
-    else if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), QLatin1String("/usr/local/share/unwallpaper/translations"), QLatin1String(".qm")))
-        app.installTranslator(&translator);
-    // Look up system folder: ~/usr/share/unwallpaper/translations/main_zh_CN.qm
-    else if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), QLatin1String("/usr/share/unwallpaper/translations"), QLatin1String(".qm")))
-        app.installTranslator(&translator);
+    foreach (QString path , FileSystem::getTranslationPaths()) {
+        if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), path, QLatin1String(".qm"))) {
+            app.installTranslator(&translator);
+            break;
+        }
+    }
 
     // Use Flat UI style
     qputenv("QT_QUICK_CONTROLS_1_STYLE", "Flat");
