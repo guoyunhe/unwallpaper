@@ -6,7 +6,10 @@ import Unwallpaper 1.0
 
 MouseArea {
     property PhotoModel model: PhotoModel {}
+    // Whether to remove view if download was removed
+    property bool removeView: false
 
+    id: photo
     width: parent.width
     height: parent.width * 0.5625 + 40
 
@@ -16,6 +19,7 @@ MouseArea {
         height: parent.height - 40
         fillMode: Image.PreserveAspectCrop
         source: model.regularUrl
+        cache: true
 
         Rectangle {
             id: progressBar
@@ -90,6 +94,9 @@ MouseArea {
             onClicked: {
                 model.remove();
                 downloadButton.enabled = true
+                if (removeView) {
+                    photo.destroy();
+                }
             }
         }
     }

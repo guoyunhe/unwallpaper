@@ -24,6 +24,5 @@ void PhotoSaveThread::run()
 {
     photo->save();
 
-    qDebug("Saved!");
     emit saved();
 }

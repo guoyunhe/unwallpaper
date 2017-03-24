@@ -6,6 +6,7 @@ import Unwallpaper 1.0
 
 Item {
     property PhotoListModel model: PhotoListModel {}
+
     width: parent.width
     height: parent.height
 
@@ -52,7 +53,7 @@ Item {
                     anchors.centerIn: parent
                     //: Button at the end of photo list
                     text: qsTr("Load more")
-                    //visible: false
+                    visible: false
 
                     onClicked: {
                         model.nextPage()
@@ -67,6 +68,17 @@ Item {
         model.fetch();
     }
 
+    onVisibleChanged: {
+        // Refresh, only for local photo list
+        if (visible && model.local) {
+            for (var i in list.children) {
+                list.children[i].destroy();
+            }
+
+            model.fetch();
+        }
+    }
+
     Connections {
         target: model
 
@@ -76,11 +88,15 @@ Item {
 
         onPhotoParsed: {
             var component = Qt.createComponent("Photo.qml");
-            var object = component.createObject(list, {model: photo});
+            var object = component.createObject(list, {model: photo, removeView: model.local});
         }
 
         onAllPhotosParsed: {
             loadMoreButton.visible = true;
+        }
+
+        onReachEnd: {
+            loadMoreButton.visible = false;
         }
     }
 }

@@ -70,6 +70,10 @@ void PhotoList::parsePhotos()
     }
 
     emit allPhotosParsed();
+
+    if (array.count() < perPage) {
+       emit reachEnd();
+    }
 }
 
 PhotoList::Order PhotoList::getOrder()
@@ -94,4 +98,9 @@ void PhotoList::setCuratedStatus(bool curated)
     this->curated = curated;
 
     emit curatedStatusChanged(curated);
+}
+
+bool PhotoList::isLocal()
+{
+    return false;
 }

@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     photo.cpp \
     photolist.cpp \
     photosavethread.cpp \
-    filesystem.cpp
+    filesystem.cpp \
+    localphotolist.cpp
 
 RESOURCES += qml.qrc
 
@@ -45,7 +46,8 @@ HEADERS += \
     photo.h \
     photolist.h \
     photosavethread.h \
-    filesystem.h
+    filesystem.h \
+    localphotolist.h
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += Magick++

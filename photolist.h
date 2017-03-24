@@ -15,6 +15,7 @@ class PhotoList : public QObject
 
     Q_PROPERTY(Order order READ getOrder WRITE setOrder NOTIFY orderChanged)
     Q_PROPERTY(bool curated READ isCurated WRITE setCuratedStatus NOTIFY curatedStatusChanged)
+    Q_PROPERTY(bool local READ isLocal NOTIFY localStatusChanged)
 
 public:
     explicit PhotoList(QObject *parent = 0);
@@ -23,6 +24,7 @@ public:
 
     Order getOrder();
     bool isCurated();
+    bool isLocal();
 
     void setOrder(Order order);
     void setCuratedStatus(bool curated);
@@ -31,9 +33,11 @@ signals:
     void downloadProgress(qint64 bytesRead, qint64 totalBytes);
     void photoParsed(Photo *photo);
     void allPhotosParsed();
+    void reachEnd();
 
     void orderChanged(Order order);
     void curatedStatusChanged(bool curated);
+    void localStatusChanged(bool local);
 
 public slots:
     void parsePhotos();

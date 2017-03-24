@@ -100,6 +100,9 @@ Window {
         PhotoList {
             id: downloadedPhotoList
             visible: downloadedPhotoNav.active
+
+            model: LocalPhotoListModel {
+            }
         }
     }
 
