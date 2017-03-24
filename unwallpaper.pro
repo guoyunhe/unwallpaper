@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     filesystem.cpp \
     localphotolist.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    icon.qrc
 
 TRANSLATIONS = translations/main_zh_CN.ts
 

@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>Download beautiful photos from Unsplash as wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Guo Yunhe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photo credit: photographers on Unsplash, CC0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Photo</name>
     <message>
         <source>Download</source>
@@ -55,6 +74,11 @@
         <source>Curated</source>
         <extracomment>Navbar entry</extracomment>
         <translation>策划</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <extracomment>Navbar entry</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

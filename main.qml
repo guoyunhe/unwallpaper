@@ -64,6 +64,13 @@ Window {
                 text: qsTr("Downloaded")
                 active: false
             }
+
+            Nav {
+                id: aboutPageNav
+                //: Navbar entry
+                text: qsTr("About")
+                active: false
+            }
         }
     }
 
@@ -103,6 +110,11 @@ Window {
 
             model: LocalPhotoListModel {
             }
+        }
+
+        AboutPage {
+            id: aboutPage
+            visible: aboutPageNav.active
         }
     }
 

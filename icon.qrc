@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/unwallpaper-128.png</file>
+        <file>icons/unwallpaper-16.png</file>
+        <file>icons/unwallpaper-22.png</file>
+        <file>icons/unwallpaper-256.png</file>
+        <file>icons/unwallpaper-32.png</file>
+        <file>icons/unwallpaper-48.png</file>
+        <file>icons/unwallpaper-512.png</file>
+        <file>icons/unwallpaper-64.png</file>
+    </qresource>
+</RCC>
