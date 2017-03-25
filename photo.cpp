@@ -1,5 +1,9 @@
 #include <Magick++.h>
 
+#ifdef Q_OS_WIN
+#include "windows.h"
+#endif
+
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
@@ -364,4 +368,26 @@ void Photo::setUserFullName(QString userFullName)
 {
     this->userFullName = userFullName;
     emit userFullNameChanged(userFullName);
+}
+
+void Photo::setWallpaper()
+{
+#ifdef Q_OS_LINUX
+    // KDE
+
+    // GNOME
+#endif
+
+#ifdef Q_OS_WIN
+    // Windows
+    QString string = getSaveFileName();
+    std::wstring wstr = string.toStdWString();
+    LPWSTR ptr = wstr.c_str();
+
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, ptr, SPIF_UPDATEINIFILE);
+#endif
+#ifdef Q_OS_MACOS
+    // macOS
+
+#endif
 }

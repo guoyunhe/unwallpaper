@@ -106,6 +106,7 @@ public slots:
     void save();
     void download();
     void remove();
+    void setWallpaper();
 
 private:
     QString id;
