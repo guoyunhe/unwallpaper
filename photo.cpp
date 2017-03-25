@@ -167,9 +167,11 @@ void Photo::generateWallpaperImage(int width, int height, QString path)
 
 void Photo::remove()
 {
+#ifdef Q_OS_LINUX
     // Remove wallpaper directory
     QDir dir(getWallpaperPath());
     dir.removeRecursively();
+#endif
 
     // Remove JSON
     QFile jsonFile(getJsonFileName());
