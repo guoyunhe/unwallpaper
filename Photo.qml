@@ -73,7 +73,7 @@ MouseArea {
             id: removeButton
             visible: model.local
             anchors.right: parent.right
-            text: qsTr("Remove") + "Remove Remove"
+            text: qsTr("Remove")
 
             onClicked: {
                 model.remove();
