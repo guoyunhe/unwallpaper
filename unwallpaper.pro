@@ -56,3 +56,6 @@ unix: PKGCONFIG += Magick++
 DISTFILES += \
     unwallpaper.desktop \
     README.md
+
+# Windows application icon embedded in *.exe
+RC_ICONS = icons/unwallpaper.ico
