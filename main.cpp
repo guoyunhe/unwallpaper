@@ -1,5 +1,3 @@
-#include <Magick++.h>
-
 #include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
@@ -14,11 +12,16 @@
 #include "photolist.h"
 #include "localphotolist.h"
 
+#ifdef Q_OS_LINUX
+#include <Magick++.h>
 using namespace Magick;
+#endif // Q_OS_LINUX
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
     InitializeMagick(*argv);
+#endif // Q_OS_LINUX
 
     QGuiApplication app(argc, argv);
 

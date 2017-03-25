@@ -1,9 +1,3 @@
-#include <Magick++.h>
-
-#ifdef Q_OS_WIN
-#include "windows.h"
-#endif
-
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
@@ -16,7 +10,14 @@
 
 #include "photo.h"
 
+#ifdef Q_OS_LINUX
+#include <Magick++.h>
 using namespace Magick;
+#endif
+
+#ifdef Q_OS_WIN
+#include "windows.h"
+#endif
 
 Photo::Photo(QObject *parent) : QObject(parent)
 {
@@ -83,6 +84,7 @@ void Photo::save()
 
     emit saveProgress(2, 10);
 
+#ifdef Q_OS_LINUX
     QDir *dir = new QDir;
     dir->mkpath(getWallpaperImagesPath()); // Create directory if not exists
     generateWallpaperImage(3840, 2160); // 4K/UHD, popular desktop monitor resolution
@@ -115,11 +117,14 @@ void Photo::save()
     }
 
     emit saveProgress(10, 10);
+#endif
 
     emit saved();
 
     emit localStatusChanged(true);
 }
+
+#ifdef Q_OS_LINUX
 
 void Photo::generateWallpaperImage(int width, int height, QString path)
 {
@@ -158,6 +163,7 @@ void Photo::generateWallpaperImage(int width, int height, QString path)
         return;
     }
 }
+#endif // Q_OS_LINUX
 
 void Photo::remove()
 {
@@ -380,11 +386,16 @@ void Photo::setWallpaper()
 
 #ifdef Q_OS_WIN
     // Windows
-    QString string = getSaveFileName();
-    std::wstring wstr = string.toStdWString();
-    LPWSTR ptr = wstr.c_str();
-
-    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, ptr, SPIF_UPDATEINIFILE);
+    // Set wallpaper style
+    HKEY hKey = NULL;
+    PWSTR style;
+    style = L"10"; // Fill
+    DWORD cbData = lstrlen(style) * sizeof(*style);
+    RegOpenKeyEx(HKEY_CURRENT_USER, L"Control Panel\\Desktop", 0, KEY_READ | KEY_WRITE, &hKey);
+    RegSetValueEx(hKey, L"WallpaperStyle", 0, REG_SZ, reinterpret_cast<const BYTE *>(style), cbData);
+    RegCloseKey(hKey);
+    // Set wallpaper image
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID) getSaveFileName().utf16(), SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
 #endif
 #ifdef Q_OS_MACOS
     // macOS

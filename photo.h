@@ -125,7 +125,9 @@ private:
 
     QNetworkReply *reply;
 
+#ifdef Q_OS_LINUX
     void generateWallpaperImage(int width, int height, QString path = QString(""));
+#endif // Q_OS_LINUX
 };
 
 #endif // PHOTO_H
