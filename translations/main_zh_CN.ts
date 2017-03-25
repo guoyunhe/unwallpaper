@@ -5,19 +5,19 @@
     <name>AboutPage</name>
     <message>
         <source>Download beautiful photos from Unsplash as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>下载 Unsplash 上的精美照片作为桌面壁纸</translation>
     </message>
     <message>
         <source>Guo Yunhe</source>
-        <translation type="unfinished"></translation>
+        <translation>郭云鹤</translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>版权</translation>
     </message>
     <message>
         <source>Photo credit: photographers on Unsplash, CC0</source>
-        <translation type="unfinished"></translation>
+        <translation>照片来源：Unsplash 摄影师，CC0</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <source>Set wallpaper</source>
         <extracomment>Photo action button</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>设为壁纸</translation>
     </message>
 </context>
 <context>
@@ -85,7 +85,7 @@
     <message>
         <source>About</source>
         <extracomment>Navbar entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>关于</translation>
     </message>
 </context>
 </TS>
