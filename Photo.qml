@@ -28,12 +28,12 @@ MouseArea {
             color: "#5544CC88"
 
             Behavior on width {
-                SmoothedAnimation { easing.type: Easing.InOutQuad }
+                SmoothedAnimation { easing.type: Easing.Linear }
             }
 
             Timer {
                 id: progressBarResetTimer
-                interval: 1000
+                interval: 300
                 onTriggered: {
                     progressBar.visible = false
                     progressBar.width = 0
@@ -121,11 +121,18 @@ MouseArea {
 
         onDownloadProgress: {
             progressBar.visible = true
-            progressBar.width = image.width * bytesRead / totalBytes / 2
+            // On Linux, downloading is 50% and saving is the other 50%
+            if (Qt.platform.os === "linux")
+                progressBar.width = image.width * bytesRead / totalBytes / 2
+            // On other platform, downloading is 100%
+            else
+                progressBar.width = image.width * bytesRead / totalBytes
         }
 
         onSaveProgress: {
-            progressBar.width = image.width * (filesSaved / totalFiles / 2 + 0.5)
+            // On Linux, downloading is 50% and saving is the other 50%
+            if (Qt.platform.os === "linux")
+                progressBar.width = image.width * (filesSaved / totalFiles / 2 + 0.5)
         }
 
         onSaved: {
