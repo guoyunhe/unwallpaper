@@ -14,7 +14,9 @@ FileSystem::FileSystem(QObject *parent) : QObject(parent)
 void FileSystem::init()
 {
     QDir *dir = new QDir;
+#ifdef Q_OS_LINUX
     dir->mkpath(getWallpaperPath());
+#endif
     dir->mkpath(getSavePath());
     dir->mkpath(getAppDataPath());
     dir->mkpath(getAppDataPath() + QString("/data/photos"));
