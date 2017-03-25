@@ -73,24 +73,7 @@ MouseArea {
             id: removeButton
             visible: model.local
             anchors.right: parent.right
-
-            style: ButtonStyle {
-                background: Rectangle {
-                    implicitWidth: 120
-                    implicitHeight: 29
-                    border.color: removeButton.pressed ? "#E13131" : "#F15151"
-                    color: removeButton.hovered ? (removeButton.pressed ? "#E13131" : "#F15151") : "white"
-                    radius: 3
-                }
-
-                label: Text {
-                    color: removeButton.hovered || removeButton.pressed ? "white" : "#F15151"
-                    //: Photo action button
-                    text: qsTr("Delete")
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-            }
+            text: qsTr("Remove") + "Remove Remove"
 
             onClicked: {
                 model.remove();

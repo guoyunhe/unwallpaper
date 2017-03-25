@@ -29,7 +29,7 @@
     <message>
         <source>Delete</source>
         <extracomment>Photo action button</extracomment>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
     </message>
     <message>
         <source>Downloaded</source>
@@ -40,6 +40,10 @@
         <source>Set wallpaper</source>
         <extracomment>Photo action button</extracomment>
         <translation>设为壁纸</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>移除</translation>
     </message>
 </context>
 <context>
