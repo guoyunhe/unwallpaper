@@ -6,6 +6,10 @@
 #include <QObject>
 #include <QUrl>
 
+#ifdef Q_OS_LINUX
+#include <QProcess>
+#endif
+
 class Photo : public QObject
 {
     Q_OBJECT
@@ -126,6 +130,7 @@ private:
     QNetworkReply *reply;
 
 #ifdef Q_OS_LINUX
+    QProcess process;
     void generateWallpaperImage(int width, int height, QString path = QString(""));
 #endif // Q_OS_LINUX
 };

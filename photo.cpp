@@ -4,13 +4,13 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-
 #include "filesystem.h"
 #include "photosavethread.h"
 
 #include "photo.h"
 
 #ifdef Q_OS_LINUX
+#include <QProcess>
 #include <Magick++.h>
 using namespace Magick;
 #endif
@@ -381,9 +381,11 @@ void Photo::setUserFullName(QString userFullName)
 void Photo::setWallpaper()
 {
 #ifdef Q_OS_LINUX
-    // KDE
-
     // GNOME
+    process.start(QString("gsettings set org.gnome.desktop.background picture-uri ") + getSaveFileName());
+    process.waitForFinished();
+    process.start(QString("gsettings set org.gnome.desktop.background picture-options wallpaper"));
+    // KDE, not supported yet. Users have to use desktop settings dialog to set wallpaper.
 #endif
 
 #ifdef Q_OS_WIN
