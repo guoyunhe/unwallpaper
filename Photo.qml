@@ -52,14 +52,15 @@ MouseArea {
         height: 30
 
         Text {
-            text: "© " + model.userFullName + " / Unsplash"
+            text: "© " + model.userFullName + " / Unsplash / CC0"
             verticalAlignment: Text.AlignVCenter
         }
 
         Button {
             id: downloadButton
+            //: Photo action button
             text: model.local ? "✓ " + qsTr("Downloaded") : qsTr("Download")
-            enabled: !model.local
+            visible: !model.local
             anchors.right: parent.right
 
             onClicked: {
@@ -71,8 +72,7 @@ MouseArea {
         Button {
             id: removeButton
             visible: model.local
-            anchors.right: downloadButton.left
-            anchors.rightMargin: 10
+            anchors.right: parent.right
 
             style: ButtonStyle {
                 background: Rectangle {
@@ -85,6 +85,7 @@ MouseArea {
 
                 label: Text {
                     color: removeButton.hovered || removeButton.pressed ? "white" : "#F15151"
+                    //: Photo action button
                     text: qsTr("Delete")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -97,6 +98,20 @@ MouseArea {
                 if (removeView) {
                     photo.destroy();
                 }
+            }
+        }
+
+        Button {
+            id: setWallpaperButton
+            //: Photo action button
+            text: qsTr("Set wallpaper")
+            visible: model.local
+
+            anchors.right: removeButton.left
+            anchors.rightMargin: 10
+
+            onClicked: {
+                model.setWallpaper();
             }
         }
     }

@@ -28,11 +28,18 @@
     </message>
     <message>
         <source>Delete</source>
+        <extracomment>Photo action button</extracomment>
         <translation>删除</translation>
     </message>
     <message>
         <source>Downloaded</source>
+        <extracomment>Photo action button</extracomment>
         <translation>已下载</translation>
+    </message>
+    <message>
+        <source>Set wallpaper</source>
+        <extracomment>Photo action button</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
