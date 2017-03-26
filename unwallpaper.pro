@@ -54,9 +54,10 @@ unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += Magick++
 
 DISTFILES += \
-    unwallpaper.desktop \
     README.md \
-    win/unwallpaper.nsi
+    win/unwallpaper.nsi \
+    linux/unwallpaper.desktop \
+    linux/me.guoyunhe.unwallpaper.appdata.xml
 
 # Windows application icon embedded in *.exe
 RC_ICONS = icons/unwallpaper.ico
