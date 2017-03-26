@@ -31,14 +31,14 @@ int main(int argc, char *argv[])
 
     app.setApplicationName(QString("unwallpaper"));
     app.setApplicationDisplayName(QString("Unwallpaper"));
-    app.setApplicationVersion(QString("0.1.0"));
+    app.setApplicationVersion(QString(VERSION));
 
     FileSystem::init();
 
     // Load translation
     QTranslator translator;
     foreach (QString path , FileSystem::getTranslationPaths()) {
-        if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), path, QLatin1String(".qm"))) {
+        if (translator.load(QLocale(), NULL, NULL, path)) {
             app.installTranslator(&translator);
             break;
         }

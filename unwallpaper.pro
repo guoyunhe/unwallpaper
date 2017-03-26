@@ -1,5 +1,9 @@
 TEMPLATE = app
 
+VERSION = 0.1.3
+# Use VERSION macro in C++
+DEFINES += VERSION=\\\"$$VERSION\\\"
+
 QT += qml quick
 CONFIG += c++11
 

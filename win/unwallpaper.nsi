@@ -4,7 +4,7 @@
 ; Generate exe:
 ;     makensis unwallpaper.nsi
 
-OutFile "unwallpaper-0.1.0-installer.exe"
+OutFile "unwallpaper-win32.exe"
 
 InstallDir $PROGRAMFILES32\Unwallpaper
 

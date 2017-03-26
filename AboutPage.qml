@@ -26,7 +26,7 @@ Item {
 
         Text {
             width: parent.width
-            text: "Unwallpaper v0.1.0"
+            text: "Unwallpaper " + Qt.application.version
             font.pixelSize: 32
             font.family: "Roboto Thin"
             horizontalAlignment: Text.AlignHCenter
