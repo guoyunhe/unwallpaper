@@ -79,7 +79,11 @@ QStringList FileSystem::getAppDataPaths()
  */
 QStringList FileSystem::getTranslationPaths()
 {
-    QStringList paths = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QString("translations"), QStandardPaths::LocateDirectory);
+    QStringList paths;
+
+#ifdef Q_OS_LINUX
+    paths = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QString("translations"), QStandardPaths::LocateDirectory);
+#endif
 
     paths.prepend(QString("translations"));
 
