@@ -6,6 +6,10 @@
 #include <QQmlApplicationEngine>
 #include <QTranslator>
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 7, 0))
+#include <QtQml>
+#endif
+
 #include "filesystem.h"
 #include "unsplash.h"
 #include "photo.h"
