@@ -9,7 +9,7 @@ Features:
 * Browse and download photos from Unsplash
 * Set wallpaper by one click
 * Support KDE, GNOME and Windows platform
-* Simple Chinese translation
+* Translations of German, Finnish, French, Chinese
 
 
 ![Imgur](http://i.imgur.com/Kkuf8o8.jpg)
@@ -33,6 +33,24 @@ Features:
 * Qt Creator
 * Qt >= 5.7.0
 * Magick++
+
+Build in Qt Creator should be easy, just like a normal Qt project. No additional configuration required.
+
+To build in command line or packaging in build server:
+
+```
+lrelease-qt5 unwallpaper.pro
+qmake-qt5 unwallpaper.pro
+make
+```
+
+Distributed package should contains:
+
+* unwallpaper --> /usr/bin/unwallpaper
+* translations/<lang>.qm --> /usr/share/unwallpaper/translations/<lang>.qm
+* linux/unwallpaper.desktop --> /usr/share/applications/unwallpaper.desktop
+* linux/me.guoyunhe.unwallpaper.appdata.xml --> /usr/share/metadata/me.guoyunhe.unwallpaper.appdata.xml
+* icons/unwallpaper-<size>.png --> /usr/share/icons/hicolor/<size>x<size>/apps/unwallpaper.png
 
 ### Windows
 
