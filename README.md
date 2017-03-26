@@ -4,6 +4,28 @@
 
 Download awesome photos from Unsplash as wallpaper.
 
+Features:
+
+* Browse and download photos from Unsplash
+* Set wallpaper by one click
+* Support KDE, GNOME and Windows platform
+* Simple Chinese translation
+
+
+![Imgur](http://i.imgur.com/Kkuf8o8.jpg)
+
+[More screenshots...](http://imgur.com/a/LmE5x)
+
+## Download & Install
+
+### openSUSE/Fedora/Debian/Ubuntu
+
+[Install official RPM or DEB packages](https://software.opensuse.org//download.html?project=home%3Aguoyunhebrave&package=unwallpaper)
+
+### Windows & Other GNU/Linux Distributions
+
+[Download](https://github.com/guoyunhe/unwallpaper/releases)
+
 ## Build
 
 ### Linux
@@ -11,7 +33,6 @@ Download awesome photos from Unsplash as wallpaper.
 * Qt Creator
 * Qt >= 5.7.0
 * Magick++
-* glibmm
 
 ### Windows
 
