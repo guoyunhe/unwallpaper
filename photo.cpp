@@ -385,7 +385,26 @@ void Photo::setWallpaper()
     process.start(QString("gsettings set org.gnome.desktop.background picture-uri ") + getSaveFileName());
     process.waitForFinished();
     process.start(QString("gsettings set org.gnome.desktop.background picture-options wallpaper"));
-    // KDE, not supported yet. Users have to use desktop settings dialog to set wallpaper.
+    process.waitForFinished();
+    // KDE
+    // NOTE: KDE 5 API is still changing, it may not work on all KDE versions
+    QString script;
+    script += "var allDesktops=desktops();";
+    script += "for(var i=0;i<allDesktops.length;i++){";
+    script += "  var d=allDesktops[i];";
+    script += "  d.wallpaperPlugin=\"org.kde.image\";";
+    script += "  d.currentConfigGroup=Array(\"Wallpaper\",\"org.kde.image\",\"General\");";
+    script += "  d.writeConfig(\"Image\",\"file://";
+    script += getSaveFileName();
+    script += "\");";
+    script += "}";
+    QStringList args;
+    args << "org.kde.plasmashell"
+         << "/PlasmaShell"
+         << "org.kde.PlasmaShell.evaluateScript"
+         << script;
+    process.start(QString("qdbus"), args);
+    process.waitForFinished();
 #endif
 
 #ifdef Q_OS_WIN
