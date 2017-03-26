@@ -14,7 +14,12 @@ SOURCES += main.cpp \
 RESOURCES += qml.qrc \
     icon.qrc
 
-TRANSLATIONS = translations/main_zh_CN.ts
+TRANSLATIONS = translations/zh_CN.ts \
+    translations/zh_TW.ts \
+    translations/zh_HK.ts \
+    translations/fi.ts \
+    translations/fr.ts \
+    translations/de.ts
 
 lupdate_only{
     SOURCES += *.qml

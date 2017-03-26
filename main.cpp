@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     // Load translation
     QTranslator translator;
     foreach (QString path , FileSystem::getTranslationPaths()) {
-        if (translator.load(QLocale(), QLatin1String("main"), QLatin1String("_"), path, QLatin1String(".qm"))) {
+        if (translator.load(QLocale(), QLatin1String(""), QLatin1String(""), path, QLatin1String(".qm"))) {
             app.installTranslator(&translator);
             break;
         }
