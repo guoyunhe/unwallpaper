@@ -16,7 +16,7 @@ Icon=unwallpaper
 
 Exec=unwallpaper
 
-Categories=Graphics;Qt
+Categories=Graphics;2DGraphics;RasterGraphics
 
 Keywords=desktop,screen,monitor,background,image,picture
 Keywords[zh_CN]=桌面,屏幕,背景,图片,图像,墙纸
