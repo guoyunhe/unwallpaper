@@ -52,7 +52,11 @@ QString FileSystem::getSavePath()
  */
 QString FileSystem::getAppDataPath()
 {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 5, 0))
+    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+#endif
 }
 
 /**
@@ -65,7 +69,11 @@ QString FileSystem::getAppDataPath()
  */
 QStringList FileSystem::getAppDataPaths()
 {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 5, 0))
+    return QStandardPaths::standardLocations(QStandardPaths::DataLocation);
+#else
     return QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+#endif
 }
 
 /**
@@ -82,8 +90,12 @@ QStringList FileSystem::getTranslationPaths()
     QStringList paths;
 
 #ifdef Q_OS_LINUX
+#if (QT_VERSION < QT_VERSION_CHECK(5, 5, 0))
+    paths = QStandardPaths::locateAll(QStandardPaths::DataLocation, QString("translations"), QStandardPaths::LocateDirectory);
+#else
     paths = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QString("translations"), QStandardPaths::LocateDirectory);
-#endif
+#endif // QT_VERSION
+#endif // Q_OS_LINUX
 
     paths.prepend(QString("translations"));
 
@@ -97,5 +109,9 @@ QStringList FileSystem::getTranslationPaths()
  */
 QString FileSystem::getAppConfigPath()
 {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 5, 0))
+    return QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("unwallpaper");
+#else
     return QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+#endif
 }
