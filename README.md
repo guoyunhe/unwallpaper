@@ -4,13 +4,35 @@
 
 Download awesome photos from Unsplash as wallpaper.
 
-Features:
+Unwallpaper is a simple wallpaper downloader for GNU/Linux and Windows.
+Powered by Unsplash, it offers 180k high quality photos by 33k photographers.
+All photos are licensed under Creative Commons Zero. You can use them for any
+purpose, and they are totally free.
 
-* Browse and download photos from Unsplash
-* Set wallpaper by one click
-* Support KDE, GNOME and Windows platform
-* Translations of German, Finnish, French, Chinese
+Supported operating systems:
 
+* openSUSE
+* Fedora
+* CentOS
+* Ubuntu
+* Debian
+* Arch Linux (Experimental)
+* Windows
+
+Supported desktop environment (set wallpaper function):
+
+* KDE
+* GNOME
+* Windows
+
+Translations:
+
+* German
+* Finnish
+* French
+* Chinese (China)
+* Chinese (Hongkong)
+* Chinese (Taiwan)
 
 ![Imgur](http://i.imgur.com/Kkuf8o8.jpg)
 
@@ -18,11 +40,11 @@ Features:
 
 ## Download & Install
 
-### openSUSE/Fedora/CentOS/Debian/Ubuntu/Linux mint/Arch Linux
+### openSUSE/Fedora/CentOS/Debian/Ubuntu/Arch Linux
 
-[Install official RPM or DEB packages](https://software.opensuse.org//download.html?project=home%3Aguoyunhebrave&package=unwallpaper)
+[Download](https://software.opensuse.org//download.html?project=home%3Aguoyunhebrave&package=unwallpaper)
 
-### Windows & Other GNU/Linux Distributions
+### Windows
 
 [Download](https://github.com/guoyunhe/unwallpaper/releases)
 
@@ -31,7 +53,7 @@ Features:
 ### Linux
 
 * Qt Creator
-* Qt >= 5.7.0
+* Qt >= 5.3.0
 * Magick++
 
 Build in Qt Creator should be easy, just like a normal Qt project. No additional configuration required.
@@ -44,7 +66,11 @@ qmake-qt5 unwallpaper.pro
 make
 ```
 
-Distributed package should contains:
+Installation:
+
+```
+make install
+```
 
 * unwallpaper --> /usr/bin/unwallpaper
 * translations/<lang>.qm --> /usr/share/unwallpaper/translations/<lang>.qm
@@ -52,9 +78,9 @@ Distributed package should contains:
 * linux/me.guoyunhe.unwallpaper.appdata.xml --> /usr/share/metadata/me.guoyunhe.unwallpaper.appdata.xml
 * icons/unwallpaper-<size>.png --> /usr/share/icons/hicolor/<size>x<size>/apps/unwallpaper.png
 
-### Windows
+### Windows (32 bit)
 
-* Qt (MinGW) >= 5.7.0
+* Qt (MinGW) >= 5.3.0
 * Win32-OpenSSL 1.0.x (NOTE: 1.1.x or newer won't work with Qt)
 * NSIS (if you want to create a single file Windows installer)
 
@@ -85,7 +111,7 @@ That's all you have to do on Windows. Next steps you can do on Linux.
 Compile translations with `lrelease unwallpaper.pro` command. Copy `translations` folder to `win`.
 
 Switch to `win` folder. Use `makensis unwallpaper.nsi` to create a single executable installer. It
-is named as `unwallpaper-0.1.0-installer.exe`.
+is named as `unwallpaper-win32.exe`.
 
 
 ## Copyright
