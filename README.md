@@ -18,7 +18,7 @@ Features:
 
 ## Download & Install
 
-### openSUSE/Fedora/Debian/Ubuntu
+### openSUSE/Fedora/CentOS/Debian/Ubuntu/Linux mint/Arch Linux
 
 [Install official RPM or DEB packages](https://software.opensuse.org//download.html?project=home%3Aguoyunhebrave&package=unwallpaper)
 
