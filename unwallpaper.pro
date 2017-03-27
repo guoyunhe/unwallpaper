@@ -1,5 +1,7 @@
 TEMPLATE = app
 
+TARGET = unwallpaper
+
 VERSION = 0.1.3
 # Use VERSION macro in C++
 DEFINES += VERSION=\\\"$$VERSION\\\"
@@ -46,10 +48,69 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /usr/bin
-!isEmpty(target.path): INSTALLS += target
+# Translation compile with lrelease
+lrelease.commands = lrelease $$PWD/unwallpaper.pro
+QMAKE_EXTRA_TARGETS += lrelease
+PRE_TARGETDEPS += lrelease
+
+# Rules for deployment
+# Install binary (default target)
+unix: target.path = /usr/bin
+unix: INSTALLS += target
+# Install translation file
+unix: trans.path = /usr/share/unwallpaper/translations
+unix: trans.files = translations/*.qm
+unix: trans.CONFIG += no_check_exist
+unix: INSTALLS += trans
+# Install desktop file
+unix: desktop.path = /usr/share/applications
+unix: desktop.files = linux/$${TARGET}.desktop
+unix: INSTALLS += desktop
+# Install appdata file
+unix: appdata.path = /usr/share/metainfo
+unix: appdata.files = linux/me.guoyunhe.$${TARGET}.appdata.xml
+unix: INSTALLS += appdata
+# Install icons
+unix: icon16.path = /usr/share/icons/hicolor/16x16/apps
+unix: icon16.extra = cp icons/$${TARGET}-16.png icons/$${TARGET}.png
+unix: icon16.files = icons/$${TARGET}.png
+unix: icon16.CONFIG += no_check_exist
+unix: INSTALLS += icon16
+unix: icon22.path = /usr/share/icons/hicolor/22x22/apps
+unix: icon22.extra = cp icons/$${TARGET}-22.png icons/$${TARGET}.png
+unix: icon22.files = icons/$${TARGET}.png
+unix: icon22.CONFIG += no_check_exist
+unix: INSTALLS += icon22
+unix: icon32.path = /usr/share/icons/hicolor/32x32/apps
+unix: icon32.extra = cp icons/$${TARGET}-32.png icons/$${TARGET}.png
+unix: icon32.files = icons/$${TARGET}.png
+unix: icon32.CONFIG += no_check_exist
+unix: INSTALLS += icon32
+unix: icon48.path = /usr/share/icons/hicolor/48x48/apps
+unix: icon48.extra = cp icons/$${TARGET}-48.png icons/$${TARGET}.png
+unix: icon48.files = icons/$${TARGET}.png
+unix: icon48.CONFIG += no_check_exist
+unix: INSTALLS += icon48
+unix: icon64.path = /usr/share/icons/hicolor/64x64/apps
+unix: icon64.extra = cp icons/$${TARGET}-64.png icons/$${TARGET}.png
+unix: icon64.files = icons/$${TARGET}.png
+unix: icon64.CONFIG += no_check_exist
+unix: INSTALLS += icon64
+unix: icon128.path = /usr/share/icons/hicolor/128x128/apps
+unix: icon128.extra = cp icons/$${TARGET}-128.png icons/$${TARGET}.png
+unix: icon128.files = icons/$${TARGET}.png
+unix: icon128.CONFIG += no_check_exist
+unix: INSTALLS += icon128
+unix: icon256.path = /usr/share/icons/hicolor/256x256/apps
+unix: icon256.extra = cp icons/$${TARGET}-256.png icons/$${TARGET}.png
+unix: icon256.files = icons/$${TARGET}.png
+unix: icon256.CONFIG += no_check_exist
+unix: INSTALLS += icon256
+unix: icon512.path = /usr/share/icons/hicolor/512x512/apps
+unix: icon512.extra = cp icons/$${TARGET}-512.png icons/$${TARGET}.png
+unix: icon512.files = icons/$${TARGET}.png
+unix: icon512.CONFIG += no_check_exist
+unix: INSTALLS += icon512
 
 HEADERS += \
     unsplash.h \
@@ -64,6 +125,7 @@ unix: PKGCONFIG += Magick++
 
 DISTFILES += \
     README.md \
+    LICENSE \
     win/unwallpaper.nsi \
     linux/unwallpaper.desktop \
     linux/me.guoyunhe.unwallpaper.appdata.xml
