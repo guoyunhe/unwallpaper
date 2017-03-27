@@ -49,7 +49,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Translation compile with lrelease
-lrelease.commands = lrelease $$PWD/unwallpaper.pro
+lrelease.commands = $$shell_path($$[QT_INSTALL_BINS]/lrelease) $$PWD/unwallpaper.pro
 QMAKE_EXTRA_TARGETS += lrelease
 PRE_TARGETDEPS += lrelease
 
