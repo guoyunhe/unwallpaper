@@ -9,6 +9,12 @@ Powered by Unsplash, it offers 180k high quality photos by 33k photographers.
 All photos are licensed under Creative Commons Zero. You can use them for any
 purpose, and they are totally free.
 
+![Imgur](http://i.imgur.com/Kkuf8o8.jpg)
+
+[More screenshots...](http://imgur.com/a/LmE5x)
+
+## Features
+
 Supported operating systems:
 
 * openSUSE
@@ -33,10 +39,6 @@ Translations:
 * Chinese (China)
 * Chinese (Hongkong)
 * Chinese (Taiwan)
-
-![Imgur](http://i.imgur.com/Kkuf8o8.jpg)
-
-[More screenshots...](http://imgur.com/a/LmE5x)
 
 ## Download & Install
 
